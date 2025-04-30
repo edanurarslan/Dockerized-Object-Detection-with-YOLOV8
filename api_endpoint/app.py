@@ -9,13 +9,13 @@ from fastapi.templating import Jinja2Templates
 from ultralytics import YOLO
 
 # Define the templates directory for Jinja2Templates
-templates = Jinja2Templates(directory="pages")
+templates = Jinja2Templates(directory="api_endpoint/pages")
 
 # Create a FastAPI app
 app = FastAPI()
 
 # Specify the folder where uploaded files will be stored
-uploads_folder = Path("input_images")
+uploads_folder = Path("api_endpoint/input_images")
 
 # GET router for the index page
 @app.get("/")
@@ -104,4 +104,3 @@ async def detect_objects(request: Request, image: UploadFile = File(...), label:
         "objects": output,
         "count": len(output)
     }
-
