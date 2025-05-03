@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  yolo-api:
+    build: .
+    container_name: yolo-object-detector
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./outputs:/app/outputs
+    networks:
+      - yolo-net
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
+
+networks:
+  yolo-net:
+    driver: bridge
