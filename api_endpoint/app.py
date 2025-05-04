@@ -1,6 +1,7 @@
 import base64
 import os
 import shutil
+import glob
 from pathlib import Path
 from fastapi import FastAPI, Request, File, UploadFile
 from fastapi.responses import JSONResponse
@@ -24,22 +25,21 @@ async def read_root(request: Request):
 # Obje tanıma (POST)
 @app.post("/detect/")
 async def detect_objects(request: Request, image: UploadFile = File(...)):
-
-    # Formdan label parametresini al
+    # Form verilerini al
     form_data = await request.form()
     label_value = form_data.get("label", None)
 
-    # Görsel var mı kontrolü
+    # Görsel kontrolü
     if not image:
         return JSONResponse(status_code=400, content={"error": "No image uploaded"})
 
-    # Görseli klasöre kaydet
+    # Görseli yükle
     uploads_folder.mkdir(parents=True, exist_ok=True)
     file_path = uploads_folder / image.filename
     with file_path.open("wb") as buffer:
         shutil.copyfileobj(image.file, buffer)
 
-    # YOLOv8 ONNX modeli varsa yükle, yoksa dışa aktar
+    # ONNX modeli kontrol et, yoksa export et
     onnx_model_path = 'yolov8n.onnx'
     if not os.path.exists(onnx_model_path):
         model = YOLO('yolov8n.pt')
@@ -65,20 +65,29 @@ async def detect_objects(request: Request, image: UploadFile = File(...)):
                 "confidence": confidence
             })
 
-    # Label parametresi varsa filtre uygula
+    # Label filtreleme
     if label_value:
         output = [obj for obj in output if obj['label'] == label_value]
 
-    # Tahminli görselin yolu (varsayılan)
-    predicted_image_path = f"runs/detect/predict/{image.filename}"
+    # En son predict klasörünü bul
+    predict_dirs = sorted(glob.glob("runs/detect/predict*"), key=os.path.getmtime, reverse=True)
+    predicted_image_path = None
+    for dir in predict_dirs:
+        candidate = os.path.join(dir, image.filename)
+        if os.path.exists(candidate):
+            predicted_image_path = candidate
+            break
 
-    # Base64 kodlama
+    if predicted_image_path is None:
+        return JSONResponse(status_code=500, content={"error": f"Predicted image not found for {image.filename}"})
+
+    # Base64 olarak kodla
     with open(predicted_image_path, "rb") as f:
         encoded_image = base64.b64encode(f.read()).decode("utf-8")
 
-    # JSON çıktısı
     return {
         "image": encoded_image,
         "objects": output,
         "count": len(output)
     }
+
