@@ -1,66 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Object Detection</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 50px auto;
-      background-color: #f9f9f9;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #fce4ec);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
     }
 
     h2 {
-      text-align: center;
+      margin-bottom: 30px;
       color: #333;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      text-align: left;
+      color: #555;
     }
 
     input[type="file"],
     input[type="text"] {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 5px;
+      padding: 12px;
+      font-size: 1rem;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="file"]:hover,
+    input[type="text"]:focus {
+      border-color: #66bb6a;
+      outline: none;
     }
 
     input[type="submit"] {
-      padding: 10px;
-      background-color: #4CAF50;
+      background-color: #66bb6a;
       color: white;
-      font-size: 1em;
       border: none;
-      border-radius: 5px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 1rem;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-
-    label {
-      font-weight: bold;
+      background-color: #43a047;
     }
   </style>
 </head>
 <body>
-  <h2>Upload an image for object detection</h2>
-  <form action="/detect/" method="post" enctype="multipart/form-data">
-    <label for="image">Select image:</label>
-    <input type="file" name="image" required>
+  <div class="container">
+    <h2>Upload an Image for Object Detection</h2>
+    <form action="/detect/" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="image">Select Image:</label>
+        <input type="file" name="image" required>
+      </div>
 
-    <label for="label">Filter by label (optional):</label>
-    <input type="text" name="label">
+      <div>
+        <label for="label">Filter by Label (optional):</label>
+        <input type="text" name="label" placeholder="e.g., cat, car...">
+      </div>
 
-    <input type="submit" value="Detect">
-  </form>
+      <input type="submit" value="Detect">
+    </form>
+  </div>
 </body>
 </html>
