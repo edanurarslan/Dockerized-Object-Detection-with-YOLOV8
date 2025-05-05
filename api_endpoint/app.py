@@ -11,7 +11,7 @@ from ultralytics import YOLO
 app = FastAPI()
 
 # Template directory for Jinja2
-templates = Jinja2Templates(directory="api_endpoint/pages")
+templates = Jinja2Templates(directory="pages")
 
 # Folder to store uploaded images
 uploads_folder = Path("api_endpoint/input_images")
