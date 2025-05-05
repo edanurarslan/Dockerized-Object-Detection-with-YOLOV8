@@ -59,7 +59,7 @@ To run the project in a local environment on Windows without Docker, follow thes
 If you're using a virtual environment or running scripts and encounter permission issues, run the following command:
 
 ```powershell
-Set-ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 * When prompted, type `Y` and press **Enter**.
@@ -70,7 +70,7 @@ Set-ExecutionPolicy RemoteSigned
 Use `cd` to move into your project folder. For example:
 
 ```powershell
-cd Dockerized-Object-Detection
+cd Dockerized-Object-Detection/api_endpoint
 ```
 
 Replace the path with the actual location of your project.
@@ -110,6 +110,12 @@ Make sure you're in the same folder as the `app.py` file, then run:
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
+or:
+
+```powershell
+python -m uvicorn app:app --reload
+```
+
 9. **Visit the Web App**
 
 Open your browser and go to:
@@ -120,6 +126,9 @@ http://127.0.0.1:8000/
 
 **Visit**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 ![Homepage Screenshot](microservice.png)
+<img src="result1.png" alt="result1" width="400"/>
+<img src="result2.png" alt="result2" width="400"/>
+
 
 ---
 
@@ -150,14 +159,15 @@ cd Dockerized-Object-Detection
 COPY torch_wheels /torch_wheels
 RUN pip install /torch_wheels/torch-2.1.0+cu118-cp310-cp310-linux_x86_64.whl
 ```
+2. **Start Docker Desktop** 
 
-2. **Build the Docker image**
+3. **Build the Docker image**
 
 ```bash
 docker build -t yolo-object-detector .
 ```
 
-3. **Run the container**
+4. **Run the container**
 
 ```bash
 docker run -it --rm -p 8000:8000 yolo-object-detector
@@ -184,6 +194,8 @@ docker compose up --build
 
 **Visit:** [http://localhost:8000](http://localhost:8000)
 ![Homepage Screenshot](fastapi.png)
+<img src="fa1.png" alt="fa1" width="400"/>
+<img src="fa2.png" alt="fa2" width="400"/>
 
 ---
 
