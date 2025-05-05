@@ -126,8 +126,8 @@ http://127.0.0.1:8000/
 
 **Visit**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 ![Homepage Screenshot](images/microservice.png)
-<img src="images/result1.png" alt="result1" width="400"/>
-<img src="images/result2.png" alt="result2" width="400"/>
+<img src="images/result1.png" alt="result1" height="550" width="700"/>
+<img src="images/result2.png" alt="result2" height="250" width="300"/>
 
 
 ---
@@ -194,8 +194,8 @@ docker compose up --build
 
 **Visit:** [http://localhost:8000](http://localhost:8000)
 ![Homepage Screenshot](images/fastapi.png)
-<img src="images/fa1.png" alt="fa1" width="400"/>
-<img src="images/fa2.png" alt="fa2" width="400"/>
+<img src="images/fa1.png" alt="fa1" height="550" width="700"/>
+<img src="images/fa2.png" alt="fa2" height="550" width="700"/>
 
 ---
 
